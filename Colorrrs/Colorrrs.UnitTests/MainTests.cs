@@ -41,33 +41,50 @@ namespace Colorrrs.UnitTests
         public void Can_Get_Brightness_Of_White_Color()
         {
             // Arrange
+            _mainViewModel.CurrentColor.Red = 255;
+            _mainViewModel.CurrentColor.Green = 255;
+            _mainViewModel.CurrentColor.Blue = 255;
 
             // Act
-
+            
             // Assert
-            Assert.Inconclusive();
+            Assert.AreEqual(_mainViewModel.CurrentColor.Red, 255);
+            Assert.AreEqual(_mainViewModel.CurrentColor.Green, 255);
+            Assert.AreEqual(_mainViewModel.CurrentColor.Blue, 255);
+            Assert.AreEqual(_mainViewModel.CurrentColor.Brightness, 255);
+            Assert.IsTrue(_mainViewModel.IsBrightness);
         }
 
         [TestMethod]
         public void Can_Get_Brightness_Of_Black_Color()
         {
             // Arrange
+            _mainViewModel.CurrentColor.Red = 0;
+            _mainViewModel.CurrentColor.Green = 0;
+            _mainViewModel.CurrentColor.Blue = 0;
 
             // Act
 
             // Assert
-            Assert.Inconclusive();
+            Assert.AreEqual(_mainViewModel.CurrentColor.Red, 0);
+            Assert.AreEqual(_mainViewModel.CurrentColor.Green, 0);
+            Assert.AreEqual(_mainViewModel.CurrentColor.Blue, 0);
+            Assert.AreEqual(_mainViewModel.CurrentColor.Brightness, 0);
+            Assert.IsFalse(_mainViewModel.IsBrightness);
         }
 
         [TestMethod]
         public void Can_Get_Brightness_Of_Random_Color()
         {
             // Arrange
+            _mainViewModel.CurrentColor.Red = 122;
+            _mainViewModel.CurrentColor.Green = 201;
+            _mainViewModel.CurrentColor.Blue = 42;
 
             // Act
 
             // Assert
-            Assert.Inconclusive();
+            Assert.IsTrue(_mainViewModel.IsBrightness);
         }
 
         [TestMethod]

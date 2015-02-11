@@ -14,6 +14,9 @@ namespace Colorrrs.Core.ViewModel.Concrete
         private readonly Colorrr _currentColor = new Colorrr();
         public Colorrr CurrentColor { get { return _currentColor; } }
 
+        public bool IsBrightness { get { return _currentColor.Brightness > 128f; } }
+
+
         public ICommand RandomizeColorCommand { get; private set; }
 
 

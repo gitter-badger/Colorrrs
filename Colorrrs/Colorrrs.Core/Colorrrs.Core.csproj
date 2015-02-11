@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Model\Colorrr.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\Abstract\IMainViewModel.cs" />
     <Compile Include="ViewModel\Concrete\MainViewModel.cs" />
