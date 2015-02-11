@@ -12,6 +12,8 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using Colorrrs.Core.ViewModel.Abstract;
+using Colorrrs.Core.ViewModel.Concrete;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
@@ -41,14 +43,15 @@ namespace Colorrrs.Core.ViewModel
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
-            SimpleIoc.Default.Register<MainViewModel>();
+            // ViewModels
+            SimpleIoc.Default.Register<IMainViewModel, MainViewModel>();
         }
 
-        public MainViewModel Main
+        public IMainViewModel Main
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
+                return ServiceLocator.Current.GetInstance<IMainViewModel>();
             }
         }
         
