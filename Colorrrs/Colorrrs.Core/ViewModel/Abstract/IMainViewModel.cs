@@ -7,6 +7,8 @@ namespace Colorrrs.Core.ViewModel.Abstract
     {
         Colorrr CurrentColor { get; }
         bool IsBrightness { get; }
+        string HEXText { get; set; }
+        string RGBText { get; set; }
 
         ICommand RandomizeColorCommand { get; }
     }

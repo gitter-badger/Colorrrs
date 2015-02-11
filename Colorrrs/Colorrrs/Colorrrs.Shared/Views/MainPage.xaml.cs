@@ -24,7 +24,18 @@ namespace Colorrrs
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            NavigationCacheMode = NavigationCacheMode.Required;
+        }
+
+        /// <summary>
+        /// Invoqué lorsque cette page est sur le point d'être affichée dans un frame.
+        /// </summary>
+        /// <param name="e">Données d’événement décrivant la manière dont l’utilisateur a accédé à cette page.
+        /// Ce paramètre est généralement utilisé pour configurer la page.</param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
         }
     }
 }

@@ -16,6 +16,12 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
         public bool IsBrightness { get { return _currentColor.Brightness > 128f; } }
 
+        private string _HEXText;
+        public string HEXText { get { return _HEXText; } set { _HEXText = value; RaisePropertyChanged(); } }
+
+        private string _RGBText;
+        public string RGBText { get { return _RGBText; } set { _RGBText = value; RaisePropertyChanged(); } }
+
 
         public ICommand RandomizeColorCommand { get; private set; }
 
@@ -24,14 +30,18 @@ namespace Colorrrs.Core.ViewModel.Concrete
         {
             RandomizeColorCommand = new RelayCommand(RandomizeColor);
 
-            //if (IsInDesignMode)
-            //{
-            //    // Code runs in Blend --> create design time data.
-            //}
-            //else
-            //{
-            //    // Code runs "for real"
-            //}
+            if (IsInDesignMode)
+            {
+                // Code runs in Blend --> create design time data.
+
+                _currentColor.Red = 124;
+                _currentColor.Green = 200;
+                _currentColor.Blue = 142;
+            }
+            else
+            {
+                // Code runs "for real"
+            }
         }
 
 
@@ -40,6 +50,9 @@ namespace Colorrrs.Core.ViewModel.Concrete
             CurrentColor.Red = (byte)_random.Next(0, 256);
             CurrentColor.Green = (byte)_random.Next(0, 256);
             CurrentColor.Blue = (byte)_random.Next(0, 256);
+
+            RaisePropertyChanged("CurrentColor");
+            RaisePropertyChanged("IsBrightness");
         }
     }
 }

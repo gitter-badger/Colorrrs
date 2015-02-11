@@ -1,9 +1,16 @@
 <Application x:Class="Colorrrs.App" 
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-             xmlns:local="using:Colorrrs"
-             xmlns:vm="using:Colorrrs.Core.ViewModel">
-  <Application.Resources>
-    <vm:ViewModelLocator x:Key="Locator" />
-  </Application.Resources>
+             xmlns:vm="using:Colorrrs.Core.ViewModel"
+             xmlns:converters="using:Colorrrs.Converters">
+    <Application.Resources>
+        <!-- ServiceLocator -->
+        <vm:ViewModelLocator x:Key="Locator" />
+
+        <!-- Converters -->
+        <converters:ColorrrToSolidColorBrushConverter x:Key="ColorrrToSolidColorBrushConverter" />
+        <converters:IsBrightnessToSolidColorBrushConverter x:Key="IsBrightnessToSolidColorBrushConverter" />
+
+        <!-- Styles & Templates -->
+    </Application.Resources>
 </Application>
