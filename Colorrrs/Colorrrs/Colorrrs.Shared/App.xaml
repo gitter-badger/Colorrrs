@@ -1,7 +1,6 @@
 <Application x:Class="Colorrrs.App" 
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-             xmlns:vm="using:Colorrrs.Core.ViewModel"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="using:Colorrrs.Converters"
              xmlns:viewModel="using:Colorrrs.ViewModel">
     <Application.Resources>
@@ -13,5 +12,22 @@
         <converters:IsBrightnessToSolidColorBrushConverter x:Key="IsBrightnessToSolidColorBrushConverter" />
 
         <!-- Styles & Templates -->
+        <Style TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid x:Name="RootElement">
+                            <Border x:Name="Border" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="1" Opacity="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                                <Grid>
+                                    <Border x:Name="MouseOverBorder" BorderThickness="1" BorderBrush="Transparent">
+                                        <ScrollViewer x:Name="ContentElement" Padding="{TemplateBinding Padding}" BorderThickness="0" IsTabStop="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>

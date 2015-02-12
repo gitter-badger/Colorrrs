@@ -46,10 +46,13 @@ namespace Colorrrs.ViewModel
             ////}
 
             // Model
-            SimpleIoc.Default.Register<Theme>(() => new Theme
+            if (!SimpleIoc.Default.IsRegistered<Theme>())
             {
-                IsDarkTheme = Application.Current.RequestedTheme == ApplicationTheme.Dark
-            });
+                SimpleIoc.Default.Register<Theme>(() => new Theme
+                {
+                    IsDarkTheme = Application.Current.RequestedTheme == ApplicationTheme.Dark
+                });
+            }
 
             // ViewModels
             SimpleIoc.Default.Register<IMainViewModel, MainViewModel>();

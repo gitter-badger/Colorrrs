@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Input;
+using Colorrrs.Core.Helpers;
 using Colorrrs.Core.Model;
 using Colorrrs.Core.ViewModel.Abstract;
 using GalaSoft.MvvmLight;
@@ -83,6 +84,9 @@ namespace Colorrrs.Core.ViewModel.Concrete
             RaisePropertyChanged("IsBrightness");
             RaisePropertyChanged("HEXText");
             RaisePropertyChanged("RGBText");
+
+            HEXText = CurrentColor.ColorrrToHex();
+            RGBText = HEXText.HexToRgb();
         }
     }
 }
