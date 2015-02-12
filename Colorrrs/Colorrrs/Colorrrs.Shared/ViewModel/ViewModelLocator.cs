@@ -12,12 +12,14 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using Windows.UI.Xaml;
+using Colorrrs.Core.Model;
 using Colorrrs.Core.ViewModel.Abstract;
 using Colorrrs.Core.ViewModel.Concrete;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
-namespace Colorrrs.Core.ViewModel
+namespace Colorrrs.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -43,6 +45,12 @@ namespace Colorrrs.Core.ViewModel
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
+            // Model
+            SimpleIoc.Default.Register<Theme>(() => new Theme
+            {
+                IsDarkTheme = Application.Current.RequestedTheme == ApplicationTheme.Dark
+            });
+
             // ViewModels
             SimpleIoc.Default.Register<IMainViewModel, MainViewModel>();
         }
@@ -54,7 +62,7 @@ namespace Colorrrs.Core.ViewModel
                 return ServiceLocator.Current.GetInstance<IMainViewModel>();
             }
         }
-        
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

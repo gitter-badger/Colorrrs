@@ -10,6 +10,7 @@ namespace Colorrrs.Core.ViewModel.Abstract
         string HEXText { get; set; }
         string RGBText { get; set; }
 
+
         ICommand RandomizeColorCommand { get; }
     }
 }

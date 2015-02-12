@@ -86,49 +86,5 @@ namespace Colorrrs.UnitTests
             // Assert
             Assert.IsTrue(_mainViewModel.IsBrightness);
         }
-
-        [TestMethod]
-        public void Can_Convert_HEX_To_RGB()
-        {
-            // Arrange
-
-            // Act
-
-            // Assert
-            Assert.Inconclusive();
-        }
-
-        [TestMethod]
-        public void Cant_Convert_Not_Correct_HEX_Color_To_RGB()
-        {
-            // Arrange
-
-            // Act
-
-            // Assert
-            Assert.Inconclusive();
-        }
-
-        [TestMethod]
-        public void Can_Convert_RGB_To_HEX()
-        {
-            // Arrange
-
-            // Act
-
-            // Assert
-            Assert.Inconclusive();
-        }
-
-        [TestMethod]
-        public void Cant_Convert_Not_Correct_RGB_Color_To_HEX()
-        {
-            // Arrange
-
-            // Act
-
-            // Assert
-            Assert.Inconclusive();
-        }
     }
 }

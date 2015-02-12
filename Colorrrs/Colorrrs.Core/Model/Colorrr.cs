@@ -20,9 +20,12 @@ namespace Colorrrs.Core.Model
             get { return _red; }
             set
             {
-                _red = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged("Brightness");
+                if (_red != value)
+                {
+                    _red = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Brightness");
+                }
             }
         }
 
@@ -36,9 +39,12 @@ namespace Colorrrs.Core.Model
             }
             set
             {
-                _green = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged("Brightness");
+                if (_green != value)
+                {
+                    _green = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Brightness");
+                }
             }
         }
 
@@ -52,9 +58,12 @@ namespace Colorrrs.Core.Model
             }
             set
             {
-                _blue = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged("Brightness");
+                if (_blue != value)
+                {
+                    _blue = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged("Brightness");
+                }
             }
         }
 
