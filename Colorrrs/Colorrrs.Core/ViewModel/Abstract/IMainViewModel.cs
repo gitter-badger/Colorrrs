@@ -12,5 +12,7 @@ namespace Colorrrs.Core.ViewModel.Abstract
 
 
         ICommand RandomizeColorCommand { get; }
+
+        void Update(string property = null);
     }
 }

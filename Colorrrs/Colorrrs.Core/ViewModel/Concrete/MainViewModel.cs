@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Colorrrs.Core.Helpers;
 using Colorrrs.Core.Model;
@@ -20,10 +21,40 @@ namespace Colorrrs.Core.ViewModel.Concrete
         public bool IsBrightness { get { return _currentColor.Brightness > 128f; } }
 
         private string _HEXText;
-        public string HEXText { get { return _HEXText; } set { _HEXText = value; RaisePropertyChanged(); } }
+        public string HEXText
+        {
+            get
+            {
+                return _HEXText;
+            }
+            set
+            {
+                if (_HEXText != value)
+                {
+                    _HEXText = value;
+                    RaisePropertyChanged();
+                    Update();
+                }
+            }
+        }
 
         private string _RGBText;
-        public string RGBText { get { return _RGBText; } set { _RGBText = value; RaisePropertyChanged(); } }
+        public string RGBText
+        {
+            get
+            {
+                return _RGBText;
+            }
+            set
+            {
+                if (_RGBText != value)
+                {
+                    _RGBText = value;
+                    RaisePropertyChanged();
+                    Update();
+                }
+            }
+        }
 
 
         public ICommand RandomizeColorCommand { get; private set; }
@@ -78,15 +109,45 @@ namespace Colorrrs.Core.ViewModel.Concrete
             Update();
         }
 
-        private void Update()
-        {
-            RaisePropertyChanged("CurrentColor");
-            RaisePropertyChanged("IsBrightness");
-            RaisePropertyChanged("HEXText");
-            RaisePropertyChanged("RGBText");
 
-            HEXText = CurrentColor.ColorrrToHex();
-            RGBText = HEXText.HexToRgb();
+        public void Update([CallerMemberName] string property = null)
+        {
+            if (property == "HEXText")
+            {
+                try
+                {
+                    CurrentColor.HexToColorrr(HEXText);
+                    _RGBText = HEXText.HexToRgb();
+
+                    RaisePropertyChanged("CurrentColor");
+                    RaisePropertyChanged("IsBrightness");
+                    RaisePropertyChanged("RGBText");
+                }
+                catch { }
+            }
+            else if (property == "RGBText")
+            {
+                try
+                {
+                    _HEXText = RGBText.RgbToHex();
+                    CurrentColor.HexToColorrr(HEXText);
+
+                    RaisePropertyChanged("CurrentColor");
+                    RaisePropertyChanged("IsBrightness");
+                    RaisePropertyChanged("HEXText");
+                }
+                catch { }
+            }
+            else
+            {
+                _HEXText = CurrentColor.ColorrrToHex();
+                _RGBText = HEXText.HexToRgb();
+
+                RaisePropertyChanged("CurrentColor");
+                RaisePropertyChanged("IsBrightness");
+                RaisePropertyChanged("HEXText");
+                RaisePropertyChanged("RGBText");
+            }
         }
     }
 }
