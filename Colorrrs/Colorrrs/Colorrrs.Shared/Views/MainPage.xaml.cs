@@ -8,6 +8,7 @@ using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
@@ -27,6 +28,8 @@ namespace Colorrrs
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        #region Constructor
+
         public MainPage()
         {
             InitializeComponent();
@@ -45,6 +48,25 @@ namespace Colorrrs
 #endif
         }
 
+        #endregion
+
+        
+        #region Focus Management
+
+        private void OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            ServiceLocator.Current.GetInstance<IMainViewModel>().CanRandomize = false;
+        }
+        private void OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            ServiceLocator.Current.GetInstance<IMainViewModel>().CanRandomize = true;
+        }
+
+        #endregion
+
+
+        #region Navigation management
+
         /// <summary>
         /// Invoqué lorsque cette page est sur le point d'être affichée dans un frame.
         /// </summary>
@@ -53,5 +75,7 @@ namespace Colorrrs
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
         }
+
+        #endregion
     }
 }

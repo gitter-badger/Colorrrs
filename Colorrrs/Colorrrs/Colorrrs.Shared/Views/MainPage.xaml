@@ -23,14 +23,16 @@
                      Background="Transparent"
                      Foreground="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
                      BorderBrush="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
-                     BorderThickness="0 0 0 2" />
+                     BorderThickness="0 0 0 2"
+                     GotFocus="OnGotFocus" LostFocus="OnLostFocus" />
             <TextBox Text="{Binding Path=RGBText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      TextAlignment="Center"
                      FontSize="42"
                      Background="Transparent"
                      Foreground="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
                      BorderBrush="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
-                     BorderThickness="0 0 0 2" />
+                     BorderThickness="0 0 0 2"
+                     GotFocus="OnGotFocus" LostFocus="OnLostFocus" />
         </StackPanel>
 
         <interactivity:Interaction.Behaviors>

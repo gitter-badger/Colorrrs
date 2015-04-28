@@ -12,9 +12,28 @@ namespace Colorrrs.Core.ViewModel.Concrete
 {
     public class MainViewModel : ViewModelBase, IMainViewModel
     {
+        #region Fields
+
         private readonly Random _random = new Random();
         private readonly bool _darkTheme;
 
+        #endregion
+
+
+        #region Properties
+
+        private bool _canRandomize = true;
+        public bool CanRandomize
+        {
+            get { return _canRandomize; }
+            set
+            {
+                _canRandomize = value;
+                RaisePropertyChanged();
+                ((RelayCommand)RandomizeColorCommand).RaiseCanExecuteChanged();
+            }
+        }
+        
         private readonly Colorrr _currentColor = new Colorrr();
         public Colorrr CurrentColor { get { return _currentColor; } }
 
@@ -56,14 +75,21 @@ namespace Colorrrs.Core.ViewModel.Concrete
             }
         }
 
+        #endregion
+
+
+        #region Commands
 
         public ICommand RandomizeColorCommand { get; private set; }
 
+        #endregion
+
+
+        #region Constructor
 
         public MainViewModel()
         {
-            RandomizeColorCommand = new RelayCommand(RandomizeColor);
-
+            RandomizeColorCommand = new RelayCommand(RandomizeColor, CanRandomizeColor);
 
             if (IsInDesignMode)
             {
@@ -99,7 +125,15 @@ namespace Colorrrs.Core.ViewModel.Concrete
             }
         }
 
+        #endregion
 
+
+        #region Command Methods
+
+        private bool CanRandomizeColor()
+        {
+            return CanRandomize;
+        }
         private void RandomizeColor()
         {
             CurrentColor.Red = (byte)_random.Next(0, 256);
@@ -109,6 +143,10 @@ namespace Colorrrs.Core.ViewModel.Concrete
             Update();
         }
 
+        #endregion
+
+
+        #region Methods
 
         public void Update([CallerMemberName] string property = null)
         {
@@ -149,5 +187,7 @@ namespace Colorrrs.Core.ViewModel.Concrete
                 RaisePropertyChanged("RGBText");
             }
         }
+
+        #endregion
     }
 }
