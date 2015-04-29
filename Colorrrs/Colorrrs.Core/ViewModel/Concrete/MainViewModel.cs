@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Colorrrs.Core.Helpers;
 using Colorrrs.Core.Model;
+using Colorrrs.Core.Services;
 using Colorrrs.Core.ViewModel.Abstract;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -12,6 +14,13 @@ namespace Colorrrs.Core.ViewModel.Concrete
 {
     public class MainViewModel : ViewModelBase, IMainViewModel
     {
+        #region Services
+
+        private readonly ILocalSettingsService _localSettingsService;
+
+        #endregion
+
+
         #region Fields
 
         private readonly Random _random = new Random();
@@ -33,7 +42,7 @@ namespace Colorrrs.Core.ViewModel.Concrete
                 ((RelayCommand)RandomizeColorCommand).RaiseCanExecuteChanged();
             }
         }
-        
+
         private readonly Colorrr _currentColor = new Colorrr();
         public Colorrr CurrentColor { get { return _currentColor; } }
 
@@ -87,8 +96,10 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
         #region Constructor
 
-        public MainViewModel()
+        public MainViewModel(ILocalSettingsService localSettingsService)
         {
+            _localSettingsService = localSettingsService;
+
             RandomizeColorCommand = new RelayCommand(RandomizeColor, CanRandomizeColor);
 
             if (IsInDesignMode)
@@ -105,6 +116,7 @@ namespace Colorrrs.Core.ViewModel.Concrete
             {
                 // Code runs "for real"
 
+                // Get default color for the first time
                 if (ServiceLocator.IsLocationProviderSet)
                     _darkTheme = ServiceLocator.Current.GetInstance<Theme>().IsDarkTheme;
 
@@ -119,6 +131,16 @@ namespace Colorrrs.Core.ViewModel.Concrete
                     _currentColor.Red = 255;
                     _currentColor.Green = 255;
                     _currentColor.Blue = 255;
+                }
+
+                // If settings exists, let's use it
+                if (_localSettingsService.CanRetrieveComposite("color"))
+                {
+                    var color = _localSettingsService.RetrieveComposite("color");
+
+                    _currentColor.Red = (byte)color["red"];
+                    _currentColor.Blue = (byte)color["blue"];
+                    _currentColor.Green = (byte)color["green"];
                 }
 
                 Update();
@@ -150,6 +172,7 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
         public void Update([CallerMemberName] string property = null)
         {
+            // Update UI
             if (property == "HEXText")
             {
                 try
@@ -186,6 +209,14 @@ namespace Colorrrs.Core.ViewModel.Concrete
                 RaisePropertyChanged("HEXText");
                 RaisePropertyChanged("RGBText");
             }
+
+            // Save settings
+            _localSettingsService.SaveComposite("color", new Dictionary<string, object>
+            {
+                {"red", _currentColor.Red},
+                {"blue", _currentColor.Blue},
+                {"green", _currentColor.Green}
+            });
         }
 
         #endregion

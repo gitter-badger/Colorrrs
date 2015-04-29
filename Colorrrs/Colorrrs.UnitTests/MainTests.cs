@@ -1,7 +1,9 @@
 ﻿using System;
+using Colorrrs.Core.Services;
 using Colorrrs.Core.ViewModel.Abstract;
 using Colorrrs.Core.ViewModel.Concrete;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Colorrrs.UnitTests
 {
@@ -10,11 +12,15 @@ namespace Colorrrs.UnitTests
     {
         private IMainViewModel _mainViewModel;
 
+        private Mock<ILocalSettingsService> _localSettingsService;
+
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _mainViewModel = new MainViewModel();
+            _localSettingsService = new Mock<ILocalSettingsService>();
+
+            _mainViewModel = new MainViewModel(_localSettingsService.Object);
         }
 
 

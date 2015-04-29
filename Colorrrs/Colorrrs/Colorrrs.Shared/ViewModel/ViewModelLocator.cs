@@ -14,8 +14,10 @@
 
 using Windows.UI.Xaml;
 using Colorrrs.Core.Model;
+using Colorrrs.Core.Services;
 using Colorrrs.Core.ViewModel.Abstract;
 using Colorrrs.Core.ViewModel.Concrete;
+using Colorrrs.Services;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
@@ -53,6 +55,9 @@ namespace Colorrrs.ViewModel
                     IsDarkTheme = Application.Current.RequestedTheme == ApplicationTheme.Dark
                 });
             }
+
+            // Services
+            SimpleIoc.Default.Register<ILocalSettingsService, LocalSettingsService>();
 
             // ViewModels
             SimpleIoc.Default.Register<IMainViewModel, MainViewModel>();
