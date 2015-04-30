@@ -30,7 +30,6 @@ namespace Colorrrs.Core.Model
         }
 
         private byte _green;
-
         public byte Green
         {
             get
@@ -49,7 +48,6 @@ namespace Colorrrs.Core.Model
         }
 
         private byte _blue;
-
         public byte Blue
         {
             get

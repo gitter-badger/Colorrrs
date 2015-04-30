@@ -58,6 +58,7 @@ namespace Colorrrs.ViewModel
 
             // Services
             SimpleIoc.Default.Register<ILocalSettingsService, LocalSettingsService>();
+            SimpleIoc.Default.Register<IColorPalletService, ColorPalletService>();
 
             // ViewModels
             SimpleIoc.Default.Register<IMainViewModel, MainViewModel>();

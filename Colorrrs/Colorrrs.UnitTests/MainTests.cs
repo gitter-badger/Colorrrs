@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Colorrrs.Core.Model;
 using Colorrrs.Core.Services;
 using Colorrrs.Core.ViewModel.Abstract;
 using Colorrrs.Core.ViewModel.Concrete;
@@ -10,17 +12,50 @@ namespace Colorrrs.UnitTests
     [TestClass]
     public class MainTests
     {
+        private int _canRetrieveCompositeCalls;
+        private int _retrieveCompositeCalls;
+        private int _saveCompositeCalls;
+
         private IMainViewModel _mainViewModel;
 
         private Mock<ILocalSettingsService> _localSettingsService;
+        private Mock<IColorPalletService> _colorPalletService;
 
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _localSettingsService = new Mock<ILocalSettingsService>();
+            _canRetrieveCompositeCalls = 0;
+            _retrieveCompositeCalls = 0;
+            _saveCompositeCalls = 0;
 
-            _mainViewModel = new MainViewModel(_localSettingsService.Object);
+
+            _localSettingsService = new Mock<ILocalSettingsService>();
+            _colorPalletService = new Mock<IColorPalletService>();
+
+
+            _colorPalletService.Setup(s => s.GetColors())
+                .Returns(() => new Dictionary<string, Colorrr>
+                {
+                    {"Aqua", new Colorrr {Red = 0, Green = 255, Blue = 255}},
+                    {"White", new Colorrr {Red = 255, Green = 255, Blue = 255}},
+                    {"Black", new Colorrr {Red = 0, Green = 0, Blue = 0}}
+                });
+
+            _localSettingsService.Setup(s => s.CanRetrieveComposite(It.IsAny<string>()))
+                .Returns(false)
+                .Callback(() => _canRetrieveCompositeCalls++);
+
+            _localSettingsService.Setup(s => s.RetrieveComposite(It.IsAny<string>()))
+                .Returns(new Dictionary<string, object>())
+                .Callback(() => _retrieveCompositeCalls++);
+
+            _localSettingsService.Setup(s => s.SaveComposite(It.IsAny<string>(), It.IsAny<Dictionary<string, object>>()))
+                .Callback(() => _saveCompositeCalls++);
+
+
+            _mainViewModel = new MainViewModel(_localSettingsService.Object,
+                _colorPalletService.Object);
         }
 
 
@@ -38,6 +73,7 @@ namespace Colorrrs.UnitTests
             Assert.AreEqual(_mainViewModel.CurrentColor.Blue, 255);
             Assert.AreEqual(_mainViewModel.HEXText, "#FFF");
             Assert.AreEqual(_mainViewModel.RGBText, "rgb(255,255,255)");
+            Assert.AreEqual(_mainViewModel.ColorName, "White");
         }
 
         [TestMethod]
@@ -128,6 +164,7 @@ namespace Colorrrs.UnitTests
             // Assert
             Assert.AreEqual(_mainViewModel.HEXText, "#FEFE22");
             Assert.AreEqual(_mainViewModel.RGBText, "rgb(254,254,34)");
+            Assert.AreEqual(_mainViewModel.ColorName, string.Empty);
         }
 
         [TestMethod]
@@ -151,6 +188,7 @@ namespace Colorrrs.UnitTests
             // Assert
             Assert.AreEqual(_mainViewModel.HEXText, "FEFE22");
             Assert.AreEqual(_mainViewModel.RGBText, "rgb(254,254,34)");
+            Assert.AreEqual(_mainViewModel.ColorName, string.Empty);
         }
 
         [TestMethod]
@@ -170,6 +208,7 @@ namespace Colorrrs.UnitTests
             // Assert
             Assert.AreEqual(_mainViewModel.HEXText, "#FF2");
             Assert.AreEqual(_mainViewModel.RGBText, "rgb(255,255,34)");
+            Assert.AreEqual(_mainViewModel.ColorName, string.Empty);
         }
 
         [TestMethod]
@@ -185,12 +224,12 @@ namespace Colorrrs.UnitTests
             // Act
             _mainViewModel.HEXText = _mainViewModel.HEXText.Substring(1);
 
-            _mainViewModel.HEXText = _mainViewModel.HEXText.Substring(0, _mainViewModel.HEXText.Length - 1);
-            _mainViewModel.HEXText += "2";
+            _mainViewModel.HEXText = _mainViewModel.HEXText.Substring(0, _mainViewModel.HEXText.Length - 1) + "2";
 
             // Assert
-            Assert.AreEqual(_mainViewModel.HEXText, "FF2");
+            Assert.AreEqual(_mainViewModel.HEXText, "#FF2");
             Assert.AreEqual(_mainViewModel.RGBText, "rgb(255,255,34)");
+            Assert.AreEqual(_mainViewModel.ColorName, string.Empty);
         }
 
         [TestMethod]
@@ -204,14 +243,12 @@ namespace Colorrrs.UnitTests
             _mainViewModel.Update();
 
             // Act
-            for (short i = 0; i < 2; i++)
-                _mainViewModel.RGBText = _mainViewModel.RGBText.Substring(0, _mainViewModel.RGBText.Length - 1);
-
-            _mainViewModel.RGBText += "2)";
+            _mainViewModel.RGBText = _mainViewModel.RGBText.Substring(0, _mainViewModel.RGBText.Length - 2) + "2)";
 
             // Assert
-            Assert.AreEqual(_mainViewModel.HEXText, "#FFFFFC");
             Assert.AreEqual(_mainViewModel.RGBText, "rgb(255,255,252)");
+            Assert.AreEqual(_mainViewModel.HEXText, "#FFFFFC");
+            Assert.AreEqual(_mainViewModel.ColorName, string.Empty);
         }
     }
 }

@@ -12,8 +12,8 @@
 
     <Grid Background="{Binding Path=CurrentColor, Converter={StaticResource ColorrrToSolidColorBrushConverter}}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
             <RowDefinition Height="2*" />
+            <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
 
         <StackPanel Margin="12 0" VerticalAlignment="Bottom" MaxWidth="400">
@@ -25,7 +25,17 @@
                      BorderBrush="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
                      BorderThickness="0 0 0 2"
                      GotFocus="OnGotFocus" LostFocus="OnLostFocus" />
+            
             <TextBox Text="{Binding Path=RGBText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     TextAlignment="Center"
+                     FontSize="42"
+                     Background="Transparent"
+                     Foreground="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
+                     BorderBrush="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
+                     BorderThickness="0 0 0 2"
+                     GotFocus="OnGotFocus" LostFocus="OnLostFocus" />
+
+            <TextBox Text="{Binding Path=ColorName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      TextAlignment="Center"
                      FontSize="42"
                      Background="Transparent"

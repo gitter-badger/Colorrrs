@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Colorrrs.Core.Helpers;
@@ -17,6 +18,7 @@ namespace Colorrrs.Core.ViewModel.Concrete
         #region Services
 
         private readonly ILocalSettingsService _localSettingsService;
+        private readonly IColorPalletService _colorPalletService;
 
         #endregion
 
@@ -25,6 +27,7 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
         private readonly Random _random = new Random();
         private readonly bool _darkTheme;
+        private readonly Dictionary<string, Colorrr> _colors; 
 
         #endregion
 
@@ -84,6 +87,21 @@ namespace Colorrrs.Core.ViewModel.Concrete
             }
         }
 
+        private string _colorName;
+        public string ColorName
+        {
+            get { return _colorName; }
+            set
+            {
+                if (_colorName != value)
+                {
+                    _colorName = value;
+                    RaisePropertyChanged();
+                    Update();
+                }
+            }
+        }
+
         #endregion
 
 
@@ -96,11 +114,19 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
         #region Constructor
 
-        public MainViewModel(ILocalSettingsService localSettingsService)
+        public MainViewModel(ILocalSettingsService localSettingsService,
+            IColorPalletService colorPalletService)
         {
+            // Retrieve Services
             _localSettingsService = localSettingsService;
+            _colorPalletService = colorPalletService;
 
+            // Create Commands
             RandomizeColorCommand = new RelayCommand(RandomizeColor, CanRandomizeColor);
+
+            // Do some logic
+            _colors = _colorPalletService.GetColors();
+
 
             if (IsInDesignMode)
             {
@@ -179,10 +205,6 @@ namespace Colorrrs.Core.ViewModel.Concrete
                 {
                     CurrentColor.HexToColorrr(HEXText);
                     _RGBText = HEXText.HexToRgb();
-
-                    RaisePropertyChanged("CurrentColor");
-                    RaisePropertyChanged("IsBrightness");
-                    RaisePropertyChanged("RGBText");
                 }
                 catch { }
             }
@@ -192,10 +214,6 @@ namespace Colorrrs.Core.ViewModel.Concrete
                 {
                     _HEXText = RGBText.RgbToHex();
                     CurrentColor.HexToColorrr(HEXText);
-
-                    RaisePropertyChanged("CurrentColor");
-                    RaisePropertyChanged("IsBrightness");
-                    RaisePropertyChanged("HEXText");
                 }
                 catch { }
             }
@@ -203,12 +221,14 @@ namespace Colorrrs.Core.ViewModel.Concrete
             {
                 _HEXText = CurrentColor.ColorrrToHex();
                 _RGBText = HEXText.HexToRgb();
-
-                RaisePropertyChanged("CurrentColor");
-                RaisePropertyChanged("IsBrightness");
-                RaisePropertyChanged("HEXText");
-                RaisePropertyChanged("RGBText");
             }
+
+            // Try to get a Color Name that match the current color
+            var matchedColor = _colors.FirstOrDefault(c => CurrentColor.Red == c.Value.Red &&
+                                                           CurrentColor.Blue == c.Value.Blue &&
+                                                           CurrentColor.Green == c.Value.Green);
+
+            ColorName = (string.IsNullOrWhiteSpace(matchedColor.Key)) ? string.Empty : matchedColor.Key;
 
             // Save settings
             _localSettingsService.SaveComposite("color", new Dictionary<string, object>
@@ -217,6 +237,13 @@ namespace Colorrrs.Core.ViewModel.Concrete
                 {"blue", _currentColor.Blue},
                 {"green", _currentColor.Green}
             });
+
+            // Notify UI
+            RaisePropertyChanged("CurrentColor");
+            RaisePropertyChanged("IsBrightness");
+            RaisePropertyChanged("HEXText");
+            RaisePropertyChanged("RGBText");
+            RaisePropertyChanged("ColorName");
         }
 
         #endregion

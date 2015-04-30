@@ -39,6 +39,7 @@
     <Compile Include="Model\Theme.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IColorPalletService.cs" />
     <Compile Include="Services\ILocalSettingsService.cs" />
     <Compile Include="ViewModel\Abstract\IMainViewModel.cs" />
     <Compile Include="ViewModel\Concrete\MainViewModel.cs" />
