@@ -44,9 +44,11 @@
                     <ControlTemplate>
                         <Border BorderBrush="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
                                 BorderThickness="0 0 0 2">
-                            <TextBlock Text="{Binding Path=ColorName}" FontSize="42"
-                                       TextAlignment="Center"
-                                       Foreground="{Binding Source={StaticResource Locator}, Path=Main.IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}" />
+                            <Button Content="{Binding Path=ColorName}" FontSize="42" MinHeight="50"
+                                    Style="{StaticResource TextBlockButtonStyle}"
+                                    FontWeight="Normal" HorizontalAlignment="Center"
+                                    Command="{Binding Path=GoToColorSelectionCommand}"
+                                    Foreground="{Binding Source={StaticResource Locator}, Path=Main.IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}" />
                         </Border>
                     </ControlTemplate>
                 </ComboBox.Template>

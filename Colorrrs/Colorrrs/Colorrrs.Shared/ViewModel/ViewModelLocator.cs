@@ -18,7 +18,9 @@ using Colorrrs.Core.Services;
 using Colorrrs.Core.ViewModel.Abstract;
 using Colorrrs.Core.ViewModel.Concrete;
 using Colorrrs.Services;
+using Colorrrs.Views;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Colorrrs.ViewModel
@@ -29,9 +31,8 @@ namespace Colorrrs.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
-        /// <summary>
-        /// Initializes a new instance of the ViewModelLocator class.
-        /// </summary>
+        #region Constructor
+
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
@@ -57,12 +58,38 @@ namespace Colorrrs.ViewModel
             }
 
             // Services
+            if (!SimpleIoc.Default.IsRegistered<INavigationService>())
+            {
+                var navigationService = CreateNavigationService();
+                SimpleIoc.Default.Register<INavigationService>(() => navigationService);
+            }
+
             SimpleIoc.Default.Register<ILocalSettingsService, LocalSettingsService>();
             SimpleIoc.Default.Register<IColorPalletService, ColorPalletService>();
 
             // ViewModels
             SimpleIoc.Default.Register<IMainViewModel, MainViewModel>();
         }
+
+        #endregion
+
+
+        #region Navigation Service (Page declaration)
+
+        private INavigationService CreateNavigationService()
+        {
+            var navigationService = new NavigationService();
+            
+            navigationService.Configure("Main", typeof(MainPage));
+            navigationService.Configure("SelectColor", typeof(SelectColorPage));
+
+            return navigationService;
+        }
+
+        #endregion
+
+
+        #region ViewModels
 
         public IMainViewModel Main
         {
@@ -72,9 +99,6 @@ namespace Colorrrs.ViewModel
             }
         }
 
-        public static void Cleanup()
-        {
-            // TODO Clear the ViewModels
-        }
+        #endregion
     }
 }

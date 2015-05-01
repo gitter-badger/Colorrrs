@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Colorrrs", "Colorrrs", "{85F25B25-C9F8-4FC1-B1DB-2E2581816DD9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Front", "Front", "{85F25B25-C9F8-4FC1-B1DB-2E2581816DD9}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Colorrrs.Shared", "Colorrrs\Colorrrs.Shared\Colorrrs.Shared.shproj", "{D6D77101-3CE8-4294-8F7A-3FD7BF04DB99}"
 EndProject

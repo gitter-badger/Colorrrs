@@ -15,6 +15,8 @@ namespace Colorrrs.Core.ViewModel.Abstract
         IEnumerable<string> ColorNames { get; }
 
         ICommand RandomizeColorCommand { get; }
+        ICommand GoToColorSelectionCommand { get; }
+        ICommand SelectColorCommand { get; }
 
         void Update(string property = null);
     }

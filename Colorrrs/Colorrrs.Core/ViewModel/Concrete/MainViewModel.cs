@@ -9,6 +9,7 @@ using Colorrrs.Core.Services;
 using Colorrrs.Core.ViewModel.Abstract;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Colorrrs.Core.ViewModel.Concrete
@@ -19,6 +20,7 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
         private readonly ILocalSettingsService _localSettingsService;
         private readonly IColorPalletService _colorPalletService;
+        private readonly INavigationService _navigationService;
 
         #endregion
 
@@ -111,6 +113,8 @@ namespace Colorrrs.Core.ViewModel.Concrete
         #region Commands
 
         public ICommand RandomizeColorCommand { get; private set; }
+        public ICommand GoToColorSelectionCommand { get; private set; }
+        public ICommand SelectColorCommand { get; private set; }
 
         #endregion
 
@@ -118,14 +122,18 @@ namespace Colorrrs.Core.ViewModel.Concrete
         #region Constructor
 
         public MainViewModel(ILocalSettingsService localSettingsService,
-            IColorPalletService colorPalletService)
+            IColorPalletService colorPalletService,
+            INavigationService navigationService)
         {
             // Retrieve Services
             _localSettingsService = localSettingsService;
             _colorPalletService = colorPalletService;
+            _navigationService = navigationService;
 
             // Create Commands
             RandomizeColorCommand = new RelayCommand(RandomizeColor, CanRandomizeColor);
+            GoToColorSelectionCommand = new RelayCommand(GoToColorSelection);
+            SelectColorCommand = new RelayCommand<Colorrr>(SelectColor);
 
             // Do some logic
             _colors = _colorPalletService.GetColors();
@@ -193,6 +201,16 @@ namespace Colorrrs.Core.ViewModel.Concrete
             CurrentColor.Blue = (byte)_random.Next(0, 256);
 
             Update();
+        }
+
+        private void GoToColorSelection()
+        {
+            _navigationService.NavigateTo("SelectColor");
+        }
+
+        private void SelectColor(Colorrr color)
+        {
+            _navigationService.GoBack();
         }
 
         #endregion

@@ -4,6 +4,7 @@ using Colorrrs.Core.Model;
 using Colorrrs.Core.Services;
 using Colorrrs.Core.ViewModel.Abstract;
 using Colorrrs.Core.ViewModel.Concrete;
+using GalaSoft.MvvmLight.Views;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -20,6 +21,7 @@ namespace Colorrrs.UnitTests
 
         private Mock<ILocalSettingsService> _localSettingsService;
         private Mock<IColorPalletService> _colorPalletService;
+        private Mock<INavigationService> _navigationService;
 
 
         [TestInitialize]
@@ -32,6 +34,7 @@ namespace Colorrrs.UnitTests
 
             _localSettingsService = new Mock<ILocalSettingsService>();
             _colorPalletService = new Mock<IColorPalletService>();
+            _navigationService = new Mock<INavigationService>();
 
 
             _colorPalletService.Setup(s => s.GetColors())
@@ -55,9 +58,12 @@ namespace Colorrrs.UnitTests
 
 
             _mainViewModel = new MainViewModel(_localSettingsService.Object,
-                _colorPalletService.Object);
+                _colorPalletService.Object,
+                _navigationService.Object);
         }
 
+
+        #region Basic Color Implementation
 
         [TestMethod]
         public void Can_Get_Default_Values()
@@ -94,6 +100,10 @@ namespace Colorrrs.UnitTests
             Assert.AreEqual(greenResult, _mainViewModel.CurrentColor.Green);
             Assert.AreEqual(blueResult, _mainViewModel.CurrentColor.Blue);
         }
+
+        #endregion
+
+        #region Brightness
 
         [TestMethod]
         public void Can_Get_Brightness_Of_White_Color()
@@ -144,6 +154,10 @@ namespace Colorrrs.UnitTests
             // Assert
             Assert.IsTrue(_mainViewModel.IsBrightness);
         }
+
+        #endregion
+
+        #region Auto update of Color
 
         [TestMethod]
         public void Can_Update_Correctly_When_Updating_Hex_Value_To_Another_Six_Based_Character_With_Sharp()
@@ -250,5 +264,48 @@ namespace Colorrrs.UnitTests
             Assert.AreEqual(_mainViewModel.HEXText, "#FFFFFC");
             Assert.AreEqual(_mainViewModel.ColorName, string.Empty);
         }
+
+        #endregion
+
+        #region Color Selection
+
+        [TestMethod]
+        public void Can_Go_Select_Color()
+        {
+            // Arrange
+            int goToSelectColor = 0;
+
+            _navigationService.Setup(s => s.NavigateTo("SelectColor"))
+                .Callback(() => goToSelectColor++);
+
+            // Act
+            _mainViewModel.GoToColorSelectionCommand.Execute(null);
+
+            // Assert
+            Assert.AreEqual(goToSelectColor, 1);
+        }
+
+        [TestMethod]
+        public void Can_Select_Color()
+        {
+            // Arrange
+            int goBack = 0;
+
+            _navigationService.Setup(s => s.GoBack())
+                .Callback(() => goBack++);
+
+            // Act
+            _mainViewModel.SelectColorCommand.Execute(new Colorrr
+            {
+                Red = 42,
+                Blue = 42,
+                Green = 42
+            });
+
+            // Assert
+            Assert.AreEqual(goBack, 1);
+        }
+
+        #endregion
     }
 }
