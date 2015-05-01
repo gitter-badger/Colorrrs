@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Windows.Input;
 using Colorrrs.Core.Model;
 
 namespace Colorrrs.Core.ViewModel.Abstract
@@ -11,7 +12,8 @@ namespace Colorrrs.Core.ViewModel.Abstract
         string HEXText { get; set; }
         string RGBText { get; set; }
         string ColorName { get; set; }
-        
+        IEnumerable<string> ColorNames { get; }
+
         ICommand RandomizeColorCommand { get; }
 
         void Update(string property = null);

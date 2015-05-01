@@ -27,7 +27,7 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
         private readonly Random _random = new Random();
         private readonly bool _darkTheme;
-        private readonly Dictionary<string, Colorrr> _colors; 
+        private readonly Dictionary<string, Colorrr> _colors;
 
         #endregion
 
@@ -102,6 +102,9 @@ namespace Colorrrs.Core.ViewModel.Concrete
             }
         }
 
+        private readonly IEnumerable<string> _colorNames;
+        public IEnumerable<string> ColorNames { get { return _colorNames; } }
+
         #endregion
 
 
@@ -126,15 +129,16 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
             // Do some logic
             _colors = _colorPalletService.GetColors();
+            _colorNames = _colors.Keys;
 
 
             if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
 
-                _currentColor.Red = 124;
-                _currentColor.Green = 200;
-                _currentColor.Blue = 142;
+                _currentColor.Red = 0;
+                _currentColor.Green = 255;
+                _currentColor.Blue = 255;
 
                 Update();
             }
