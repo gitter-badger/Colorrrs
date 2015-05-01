@@ -6,6 +6,20 @@ namespace Colorrrs.Core.Model
 {
     public class Colorrr : INotifyPropertyChanged
     {
+        private string _colorName;
+        public string ColorName
+        {
+            get { return _colorName; }
+            set
+            {
+                if (_colorName != value)
+                {
+                    _colorName = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public float Brightness
         {
             get

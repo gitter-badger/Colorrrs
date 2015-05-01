@@ -6,34 +6,48 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-    Background="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}">
+    Background="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}, ConverterParameter=inverse}">
 
-    <ScrollViewer Margin="12"
-                  Background="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}">
-        
-        <StackPanel>
+    <Grid Margin="12"
+          Background="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}, ConverterParameter=inverse}">
 
-            <TextBlock Text="CHOOSE A COLOR" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Grid.Row="0" Text="CHOOSE A COLOR" 
                    Margin="0 0 0 6"
-                   Style="{StaticResource TitleTextBlockStyle}" />
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   Foreground="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}" />
 
-            <ListView Margin="0 6 0 0"
-                  ItemsSource="{Binding Path=ColorNames, Mode=TwoWay}"
-                  SelectedItem="{Binding Path=ColorName, Mode=TwoWay}"
+        <ListView Grid.Row="1" Margin="0 6 0 0"
+                  ItemsSource="{Binding Path=Colors, Mode=TwoWay}"
+                  SelectedItem="{Binding Path=CurrentColor, Mode=TwoWay}"
                   Background="Transparent">
 
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Button Content="{Binding}" FontSize="32" Margin="0 6"
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Button FontSize="32" Margin="0 6"
                             Style="{StaticResource TextBlockButtonStyle}"
                             FontWeight="Normal"
                             Command="{Binding Path=Main.SelectColorCommand, Source={StaticResource Locator}}"
-                            CommandParameter="{Binding}"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                            CommandParameter="{Binding}">
 
-            </ListView>
-        </StackPanel>
-      
-    </ScrollViewer>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="{Binding Converter={StaticResource ColorrrToSolidColorBrushConverter}}" Width="25" Height="25" />
+                           
+                            <TextBlock Text="{Binding Path=ColorName}"
+                                       Foreground="{Binding Source={StaticResource Locator}, Path=Main.IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
+                                       Margin="12 0 0 0" />
+                        </StackPanel>
+
+                    </Button>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+    </Grid>
 </Page>

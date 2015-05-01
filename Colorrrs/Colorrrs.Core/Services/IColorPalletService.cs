@@ -5,6 +5,6 @@ namespace Colorrrs.Core.Services
 {
     public interface IColorPalletService
     {
-        Dictionary<string, Colorrr> GetColors();
+        IEnumerable<Colorrr> GetColors();
     }
 }

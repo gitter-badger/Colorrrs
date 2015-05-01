@@ -29,7 +29,6 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
         private readonly Random _random = new Random();
         private readonly bool _darkTheme;
-        private readonly Dictionary<string, Colorrr> _colors;
 
         #endregion
 
@@ -89,23 +88,10 @@ namespace Colorrrs.Core.ViewModel.Concrete
             }
         }
 
-        private string _colorName;
-        public string ColorName
-        {
-            get { return _colorName; }
-            set
-            {
-                if (_colorName != value)
-                {
-                    _colorName = value;
-                    RaisePropertyChanged();
-                    Update();
-                }
-            }
-        }
-
-        private readonly IEnumerable<string> _colorNames;
-        public IEnumerable<string> ColorNames { get { return _colorNames; } }
+        public string ColorName { get { return CurrentColor.ColorName; } }
+        
+        private readonly IEnumerable<Colorrr> _colors;
+        public IEnumerable<Colorrr> Colors { get { return _colors; } }
 
         #endregion
 
@@ -137,7 +123,6 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
             // Do some logic
             _colors = _colorPalletService.GetColors();
-            _colorNames = _colors.Keys;
 
 
             if (IsInDesignMode)
@@ -210,6 +195,7 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
         private void SelectColor(Colorrr color)
         {
+            CurrentColor.ColorName = color.ColorName;
             _navigationService.GoBack();
         }
 
@@ -220,7 +206,7 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
         public void Update([CallerMemberName] string property = null)
         {
-            // Update UI
+            // Update Properties
             if (property == "HEXText")
             {
                 try
@@ -239,6 +225,10 @@ namespace Colorrrs.Core.ViewModel.Concrete
                 }
                 catch { }
             }
+            else if (property == "ColorName")
+            {
+                // TODO : Do update
+            }
             else
             {
                 _HEXText = CurrentColor.ColorrrToHex();
@@ -246,11 +236,11 @@ namespace Colorrrs.Core.ViewModel.Concrete
             }
 
             // Try to get a Color Name that match the current color
-            var matchedColor = _colors.FirstOrDefault(c => CurrentColor.Red == c.Value.Red &&
-                                                           CurrentColor.Blue == c.Value.Blue &&
-                                                           CurrentColor.Green == c.Value.Green);
+            var matchedColor = _colors.FirstOrDefault(c => CurrentColor.Red == c.Red &&
+                                                          CurrentColor.Blue == c.Blue &&
+                                                          CurrentColor.Green == c.Green);
 
-            ColorName = (string.IsNullOrWhiteSpace(matchedColor.Key)) ? string.Empty : matchedColor.Key;
+            CurrentColor.ColorName = (matchedColor == null) ? string.Empty : matchedColor.ColorName;
 
             // Save settings
             _localSettingsService.SaveComposite("color", new Dictionary<string, object>

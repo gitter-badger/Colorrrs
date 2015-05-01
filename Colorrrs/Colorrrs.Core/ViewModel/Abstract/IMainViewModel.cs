@@ -11,8 +11,8 @@ namespace Colorrrs.Core.ViewModel.Abstract
         bool IsBrightness { get; }
         string HEXText { get; set; }
         string RGBText { get; set; }
-        string ColorName { get; set; }
-        IEnumerable<string> ColorNames { get; }
+        string ColorName { get; }
+        IEnumerable<Colorrr> Colors { get; }
 
         ICommand RandomizeColorCommand { get; }
         ICommand GoToColorSelectionCommand { get; }

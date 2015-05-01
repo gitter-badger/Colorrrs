@@ -38,11 +38,11 @@ namespace Colorrrs.UnitTests
 
 
             _colorPalletService.Setup(s => s.GetColors())
-                .Returns(() => new Dictionary<string, Colorrr>
+                .Returns(() => new List<Colorrr>
                 {
-                    {"Aqua", new Colorrr {Red = 0, Green = 255, Blue = 255}},
-                    {"White", new Colorrr {Red = 255, Green = 255, Blue = 255}},
-                    {"Black", new Colorrr {Red = 0, Green = 0, Blue = 0}}
+                    new Colorrr {ColorName = "Aqua", Red = 0, Green = 255, Blue = 255},
+                    new Colorrr {ColorName = "White", Red = 255, Green = 255, Blue = 255},
+                    new Colorrr {ColorName = "Black", Red = 0, Green = 0, Blue = 0}
                 });
 
             _localSettingsService.Setup(s => s.CanRetrieveComposite(It.IsAny<string>()))
@@ -241,7 +241,7 @@ namespace Colorrrs.UnitTests
             _mainViewModel.HEXText = _mainViewModel.HEXText.Substring(0, _mainViewModel.HEXText.Length - 1) + "2";
 
             // Assert
-            Assert.AreEqual(_mainViewModel.HEXText, "#FF2");
+            Assert.AreEqual(_mainViewModel.HEXText, "FF2");
             Assert.AreEqual(_mainViewModel.RGBText, "rgb(255,255,34)");
             Assert.AreEqual(_mainViewModel.ColorName, string.Empty);
         }
@@ -297,6 +297,7 @@ namespace Colorrrs.UnitTests
             // Act
             _mainViewModel.SelectColorCommand.Execute(new Colorrr
             {
+                ColorName = "anything",
                 Red = 42,
                 Blue = 42,
                 Green = 42
@@ -304,6 +305,10 @@ namespace Colorrrs.UnitTests
 
             // Assert
             Assert.AreEqual(goBack, 1);
+            Assert.AreEqual(_mainViewModel.ColorName, "anything");
+            //Assert.AreEqual(_mainViewModel.CurrentColor.Red, 42); // TOOD : complete tests
+            //Assert.AreEqual(_mainViewModel.CurrentColor.Green, 42);
+            //Assert.AreEqual(_mainViewModel.CurrentColor.Blue, 42);
         }
 
         #endregion
