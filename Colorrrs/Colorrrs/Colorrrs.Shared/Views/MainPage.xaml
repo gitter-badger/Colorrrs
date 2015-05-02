@@ -25,7 +25,7 @@
                      BorderBrush="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
                      BorderThickness="0 0 0 2"
                      GotFocus="OnGotFocus" LostFocus="OnLostFocus" />
-            
+
             <TextBox Text="{Binding Path=RGBText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      TextAlignment="Center"
                      FontSize="42"
@@ -35,25 +35,29 @@
                      BorderThickness="0 0 0 2"
                      GotFocus="OnGotFocus" LostFocus="OnLostFocus" />
 
-            <ComboBox ItemsSource="{Binding Path=ColorNames, Mode=TwoWay}"
-                      SelectedItem="{Binding Path=ColorName, Mode=TwoWay}"
-                      Background="Transparent" 
-                      GotFocus="OnGotFocus" LostFocus="OnLostFocus">
-                
-                <ComboBox.Template>
-                    <ControlTemplate>
-                        <Border BorderBrush="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
-                                BorderThickness="0 0 0 2">
-                            <Button Content="{Binding Path=ColorName}" FontSize="42" MinHeight="50"
-                                    Style="{StaticResource TextBlockButtonStyle}"
-                                    FontWeight="Normal" HorizontalAlignment="Center"
-                                    Command="{Binding Path=GoToColorSelectionCommand}"
-                                    Foreground="{Binding Source={StaticResource Locator}, Path=Main.IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}" />
-                        </Border>
-                    </ControlTemplate>
-                </ComboBox.Template>
-                
-            </ComboBox>
+            <Border BorderBrush="{Binding Path=IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}"
+                    BorderThickness="0 0 0 2" HorizontalAlignment="Stretch">
+                <Grid MinHeight="50" HorizontalAlignment="Stretch">
+                    <Button Visibility="{Binding Path=ColorName, Converter={StaticResource EmptyStringToVisibilityConverter}}"
+                            FontSize="42"
+                            Style="{StaticResource TextBlockButtonStyle}"
+                            FontWeight="Normal" HorizontalAlignment="Stretch"
+                            Command="{Binding Path=GoToColorSelectionCommand}"
+                            Foreground="{Binding Source={StaticResource Locator}, Path=Main.IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}">
+                        <TextBlock Text="{Binding Path=ColorName}" TextAlignment="Center" />
+                    </Button>
+
+                    <Button Visibility="{Binding Path=ColorName, Converter={StaticResource EmptyStringToVisibilityConverter}, ConverterParameter=inverse}"
+                            FontSize="34"
+                            Style="{StaticResource TextBlockButtonStyle}"
+                            FontWeight="Normal" HorizontalAlignment="Stretch"
+                            Command="{Binding Path=GoToColorSelectionCommand}"
+                            Foreground="{Binding Source={StaticResource Locator}, Path=Main.IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}">
+                        <TextBlock Text="choose a color" TextAlignment="Center" />
+                    </Button>
+                </Grid>
+            </Border>
+            
         </StackPanel>
 
         <interactivity:Interaction.Behaviors>

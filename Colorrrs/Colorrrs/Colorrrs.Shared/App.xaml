@@ -10,6 +10,7 @@
         <!-- Converters -->
         <converters:ColorrrToSolidColorBrushConverter x:Key="ColorrrToSolidColorBrushConverter" />
         <converters:IsBrightnessToSolidColorBrushConverter x:Key="IsBrightnessToSolidColorBrushConverter" />
+        <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter" />
 
         <!-- Styles & Templates -->
         <Style TargetType="TextBox">
