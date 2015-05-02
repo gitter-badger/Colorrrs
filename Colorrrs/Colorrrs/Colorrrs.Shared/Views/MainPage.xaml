@@ -44,6 +44,7 @@
                             Style="{StaticResource TextBlockButtonStyle}"
                             FontWeight="Normal" HorizontalAlignment="Stretch"
                             Command="{Binding Path=GoToColorSelectionCommand}"
+                            GotFocus="OnGotFocus" LostFocus="OnLostFocus"
                             Foreground="{Binding Source={StaticResource Locator}, Path=Main.IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}">
                         <TextBlock Text="{Binding Path=ColorName}" TextAlignment="Center" />
                     </Button>
@@ -53,6 +54,7 @@
                             Style="{StaticResource TextBlockButtonStyle}"
                             FontWeight="Normal" HorizontalAlignment="Stretch"
                             Command="{Binding Path=GoToColorSelectionCommand}"
+                            GotFocus="OnGotFocus" LostFocus="OnLostFocus"
                             Foreground="{Binding Source={StaticResource Locator}, Path=Main.IsBrightness, Converter={StaticResource IsBrightnessToSolidColorBrushConverter}}">
                         <TextBlock Text="choose a color" TextAlignment="Center" />
                     </Button>

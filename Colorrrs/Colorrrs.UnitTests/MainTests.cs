@@ -298,17 +298,17 @@ namespace Colorrrs.UnitTests
             _mainViewModel.SelectColorCommand.Execute(new Colorrr
             {
                 ColorName = "anything",
-                Red = 42,
-                Blue = 42,
-                Green = 42
+                Red = 0,
+                Blue = 255,
+                Green = 255
             });
 
             // Assert
             Assert.AreEqual(goBack, 1);
-            Assert.AreEqual(_mainViewModel.ColorName, "anything");
-            //Assert.AreEqual(_mainViewModel.CurrentColor.Red, 42); // TOOD : complete tests
-            //Assert.AreEqual(_mainViewModel.CurrentColor.Green, 42);
-            //Assert.AreEqual(_mainViewModel.CurrentColor.Blue, 42);
+            Assert.AreEqual(_mainViewModel.CurrentColor.Red, 0);
+            Assert.AreEqual(_mainViewModel.CurrentColor.Green, 255);
+            Assert.AreEqual(_mainViewModel.CurrentColor.Blue, 255);
+            Assert.AreEqual(_mainViewModel.ColorName, "Aqua");
         }
 
         #endregion

@@ -195,7 +195,12 @@ namespace Colorrrs.Core.ViewModel.Concrete
 
         private void SelectColor(Colorrr color)
         {
-            CurrentColor.ColorName = color.ColorName;
+            CurrentColor.Red = color.Red;
+            CurrentColor.Green = color.Green;
+            CurrentColor.Blue = color.Blue;
+
+            Update();
+
             _navigationService.GoBack();
         }
 
@@ -224,10 +229,6 @@ namespace Colorrrs.Core.ViewModel.Concrete
                     CurrentColor.HexToColorrr(HEXText);
                 }
                 catch { }
-            }
-            else if (property == "ColorName")
-            {
-                // TODO : Do update
             }
             else
             {

@@ -18,7 +18,7 @@ namespace Colorrrs.Services
                 where color.A == 255
                 select new Colorrr
                 {
-                    ColorName = colorProperty.Name, Red = color.R, Blue = color.G, Green = color.B,
+                    ColorName = colorProperty.Name, Red = color.R, Green = color.G, Blue = color.B,
                 }).ToList();
         }
     }
